@@ -55,6 +55,7 @@ def get_llm(model: str):
                 model=model_name)
             else:
                 llm = ChatOpenAI(
+                base_url="https://api.chatanywhere.tech",
                 api_key=api_key,
                 model=model_name,
                 temperature=0,
@@ -166,7 +167,13 @@ def get_chunk_id_as_doc_metadata(chunkId_chunkDoc_list):
       
 
 async def get_graph_document_list(
-    llm, combined_chunk_document_list, allowedNodes, allowedRelationship, additional_instructions=None
+    llm,
+    combined_chunk_document_list, 
+    allowedNodes,
+    allowedRelationship,
+    node_properties=None,
+    relationship_properties=None,
+    additional_instructions=None
 ):
     if additional_instructions:
         additional_instructions = sanitize_additional_instruction(additional_instructions)
@@ -178,8 +185,8 @@ async def get_graph_document_list(
             node_properties = False
             relationship_properties = False
         else:
-            node_properties = ["description"]
-            relationship_properties = ["description"]
+            node_properties = node_properties or ["description"]
+            relationship_properties = relationship_properties or ["description"]
         TOOL_SUPPORTED_MODELS = {"qwen3", "deepseek"} 
         model_name = llm.model_name.lower() 
         ignore_tool_usage = not any(pattern in model_name for pattern in TOOL_SUPPORTED_MODELS)
@@ -199,8 +206,16 @@ async def get_graph_document_list(
         graph_document_list = await llm_transformer.aconvert_to_graph_documents(combined_chunk_document_list)
     return graph_document_list
 
-async def get_graph_from_llm(model, chunkId_chunkDoc_list, allowedNodes, allowedRelationship, chunks_to_combine, additional_instructions=None):
-    
+async def get_graph_from_llm(
+        model,
+        chunkId_chunkDoc_list,
+        allowedNodes,
+        allowedRelationship,
+        node_properties,
+        relationship_properties,        
+        chunks_to_combine,
+        additional_instructions=None
+):    
     llm, model_name = get_llm(model)
     combined_chunk_document_list = get_combined_chunks(chunkId_chunkDoc_list, chunks_to_combine)
     
@@ -212,7 +227,13 @@ async def get_graph_from_llm(model, chunkId_chunkDoc_list, allowedNodes, allowed
         items = allowedRelationship.split(',')
         allowedRelationship = [tuple(items[i:i+3]) for i in range(0, len(items), 3)]
     graph_document_list = await get_graph_document_list(
-        llm, combined_chunk_document_list, allowedNodes, allowedRelationship, additional_instructions
+        llm,
+        combined_chunk_document_list,
+        allowedNodes,
+        allowedRelationship,
+        node_properties,
+        relationship_properties,
+        additional_instructions
     )
     return graph_document_list
 

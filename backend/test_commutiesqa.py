@@ -48,7 +48,7 @@ def test_graph_from_file_local(model_name):
    merged_file_path = os.path.join(MERGED_DIR, file_name)
 
    local_file_result = extract_graph_from_file_local_file(
-       URI, USERNAME, PASSWORD, DATABASE, model_name, merged_file_path, file_name, '', '',None
+       URI, USERNAME, PASSWORD, DATABASE, model_name, merged_file_path, file_name, '', '',None, None, None
    )
    logging.info("Local file processing complete")
    print(local_file_result)
@@ -71,7 +71,7 @@ def test_graph_from_wikipedia(model_name):
        file_name = "Ram_Mandir"
        create_source_node_graph_url_wikipedia(graph, model_name, wiki_query, source_type)
 
-       wiki_result = extract_graph_from_file_Wikipedia(URI, USERNAME, PASSWORD, DATABASE, model_name, file_name, 'en',file_name, '', '',None)
+       wiki_result = extract_graph_from_file_Wikipedia(URI, USERNAME, PASSWORD, DATABASE, model_name, file_name, 'en',file_name, '', '',None, None, None)
        logging.info("Wikipedia test done")
        print(wiki_result)
        try:
@@ -94,7 +94,7 @@ def test_graph_website(model_name):
    file_name = []
    create_source_node_graph_web_url(graph, model_name, source_url, source_type)
 
-   weburl_result = extract_graph_from_web_page(URI, USERNAME, PASSWORD, DATABASE, model_name, source_url,file_name, '', '',None)
+   weburl_result = extract_graph_from_web_page(URI, USERNAME, PASSWORD, DATABASE, model_name, source_url,file_name, '', '',None,None,None)
    logging.info("WebUrl test done")
    print(weburl_result)
 
@@ -113,7 +113,7 @@ def test_graph_from_youtube_video(model_name):
    source_type = 'youtube'
    create_source_node_graph_url_youtube(graph, model_name, source_url, source_type)
    youtube_result = extract_graph_from_file_youtube(
-       URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, '', ''
+       URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, '', '', None, None
    )
    logging.info("YouTube Video test done")
    print(youtube_result)

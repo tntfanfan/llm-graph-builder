@@ -210,6 +210,8 @@ async def extract_knowledge_graph_from_file(
     file_name=Form(None),
     allowedNodes=Form(None),
     allowedRelationship=Form(None),
+    node_properties=Form(None),
+    relationship_properties=Form(None), 
     token_chunk_size: Optional[int] = Form(None),
     chunk_overlap: Optional[int] = Form(None),
     chunks_to_combine: Optional[int] = Form(None),
@@ -240,22 +242,22 @@ async def extract_knowledge_graph_from_file(
         if source_type == 'local file':
             file_name = sanitize_filename(file_name)
             merged_file_path = validate_file_path(MERGED_DIR, file_name)
-            uri_latency, result = await extract_graph_from_file_local_file(uri, userName, password, database, model, merged_file_path, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_file_local_file(uri, userName, password, database, model, merged_file_path, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
 
         elif source_type == 's3 bucket' and source_url:
-            uri_latency, result = await extract_graph_from_file_s3(uri, userName, password, database, model, source_url, aws_access_key_id, aws_secret_access_key, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_file_s3(uri, userName, password, database, model, source_url, aws_access_key_id, aws_secret_access_key, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
         
         elif source_type == 'web-url':
-            uri_latency, result = await extract_graph_from_web_page(uri, userName, password, database, model, source_url, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_web_page(uri, userName, password, database, model, source_url, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
 
         elif source_type == 'youtube' and source_url:
-            uri_latency, result = await extract_graph_from_file_youtube(uri, userName, password, database, model, source_url, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_file_youtube(uri, userName, password, database, model, source_url, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
 
         elif source_type == 'Wikipedia' and wiki_query:
-            uri_latency, result = await extract_graph_from_file_Wikipedia(uri, userName, password, database, model, wiki_query, language, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_file_Wikipedia(uri, userName, password, database, model, wiki_query, language, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
 
         elif source_type == 'gcs bucket' and gcs_bucket_name:
-            uri_latency, result = await extract_graph_from_file_gcs(uri, userName, password, database, model, gcs_project_id, gcs_bucket_name, gcs_bucket_folder, gcs_blob_filename, access_token, file_name, allowedNodes, allowedRelationship, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
+            uri_latency, result = await extract_graph_from_file_gcs(uri, userName, password, database, model, gcs_project_id, gcs_bucket_name, gcs_bucket_folder, gcs_blob_filename, access_token, file_name, allowedNodes, allowedRelationship, node_properties, relationship_properties, token_chunk_size, chunk_overlap, chunks_to_combine, retry_condition, additional_instructions)
         else:
             return create_api_response('Failed',message='source_type is other than accepted source')
         extract_api_time = time.time() - start_time

@@ -48,7 +48,7 @@ def test_graph_from_file_local(model_name):
        create_source_node_local(graph, model_name, file_name)
        result = asyncio.run(
            extract_graph_from_file_local_file(
-               URI, USERNAME, PASSWORD, DATABASE, model_name, merged_file_path, file_name, '', '',100,20,1, None,''
+               URI, USERNAME, PASSWORD, DATABASE, model_name, merged_file_path, file_name, '', '', None, None, 100,20,1, None,''
            )
        )
        logging.info(f"Local file test result: {result}")
@@ -66,7 +66,7 @@ def test_graph_from_wikipedia(model_name):
        create_source_node_graph_url_wikipedia(graph, model_name, wiki_query, "Wikipedia")
        result = asyncio.run(
            extract_graph_from_file_Wikipedia(
-               URI, USERNAME, PASSWORD, DATABASE, model_name, file_name, 'en', file_name, '', '', 100,20,1,None,''
+               URI, USERNAME, PASSWORD, DATABASE, model_name, file_name, 'en', file_name, '', '', None, None, 100,20,1,None,''
            )
        )
        logging.info(f"Wikipedia test result: {result}")
@@ -84,7 +84,7 @@ def test_graph_from_youtube_video(model_name):
        create_source_node_graph_url_youtube(graph, model_name, source_url, "youtube")
        result = asyncio.run(
            extract_graph_from_file_youtube(
-               URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, file_name, '', '',100,20,1, None,''
+               URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, file_name, '', '', None, None, 100,20,1, None,''
            )
       )
        logging.info(f"YouTube video test result: {result}")
@@ -103,7 +103,7 @@ def test_graph_website(model_name):
        create_source_node_graph_web_url(graph, model_name, source_url, "web-url")
        result = asyncio.run(
            extract_graph_from_web_page(
-               URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, "Google Cloud Skills Boost-www", '', '',100,20,1, None,''
+               URI, USERNAME, PASSWORD, DATABASE, model_name, source_url, "Google Cloud Skills Boost-www", '', '',None,None,100,20,1, None,''
            )
        )
        logging.info(f"Web URL test result: {result}")
