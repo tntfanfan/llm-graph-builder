@@ -181,15 +181,15 @@ async def get_graph_document_list(
     if "diffbot_api_key" in dir(llm):
         llm_transformer = llm
     else:
-        if "get_name" in dir(llm) and llm.get_name() != "ChatOpenAI" or llm.get_name() != "ChatVertexAI" or llm.get_name() != "AzureChatOpenAI":
+        if ("get_name" in dir(llm) and llm.get_name() != "ChatOpenAI" and llm.get_name() != "ChatVertexAI" and llm.get_name() != "AzureChatOpenAI"):
             node_properties = False
             relationship_properties = False
         else:
             node_properties = node_properties or ["description"]
             relationship_properties = relationship_properties or ["description"]
-        TOOL_SUPPORTED_MODELS = {"qwen3", "deepseek"} 
+        TOOL_SUPPORTED_MODELS = {"qwen3", "deepseek","gpt"}
         model_name = llm.model_name.lower() 
-        ignore_tool_usage = not any(pattern in model_name for pattern in TOOL_SUPPORTED_MODELS)
+        ignore_tool_usage = not any(pattern in model_name for pattern in TOOL_SUPPORTED_MODELS)        
         llm_transformer = LLMGraphTransformer(
             llm=llm,
             node_properties=node_properties,
