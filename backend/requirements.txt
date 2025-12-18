@@ -44,7 +44,7 @@ unstructured[all-docs]
 unstructured==0.17.2
 unstructured-client==0.32.3
 unstructured-inference==0.8.10
-urllib3==2.3.0
+urllib3<1.27
 uvicorn==0.34.0
 gunicorn==23.0.0
 wikipedia==1.4.0
@@ -55,10 +55,11 @@ zipp==3.21.0
 sentence-transformers==4.0.2
 google-cloud-logging==3.11.4
 pypandoc==1.15
-graphdatascience==1.14
+graphdatascience==1.12
 Secweb==1.18.1
 ragas==0.2.14
 rouge_score==0.1.2
 langchain-neo4j==0.4.0
 pypandoc-binary==1.15
 chardet==5.2.0
+tenacity<9.0.0
